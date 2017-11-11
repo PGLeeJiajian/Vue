@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #dialog-box{
+            margin: 0 auto;
+            width: 400px;
+            height: 400px;
+            background: #f3f3f3;
+        }
+        #title{
+            background: #f00;
+        }
+        #close{
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="loginShow=true">登录</button>
+        <button @click="regShow=true">注册</button>
+        <demo v-show="loginShow" @close="closeDialog">
+            <div slot="title">
+                name：<input type="text"><br>
+                password：<input type="text">
+            </div>
+        </demo>
+        <demo v-show="regShow" @close="closeDialog1">
+            <div slot="title">
+                name：<input type="text"><br>
+                password：<input type="text"><br>
+                确认密码:<input type="text">
+            </div>
+        </demo>
+    </div>
+</body>
+<script src="vue.js"></script>
+<script type="text/x-template" id="dialog">
+    <div id="dialog-box">
+        <div id="title">
+            <span>name</span>
+            <span id="close" @click="$emit('close',123,234)">[X]</span>
+        </div>
+        <slot name="title">
+            <div id="content">
+                content
+            </div>
+        </slot>
+
+
+    </div>
+</script>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            loginShow:false,
+            regShow:false
+        },
+        methods:{
+            closeDialog(a,b){
+                this.loginShow =false;
+                console.log(a,b);
+            },
+            closeDialog1(a,b){
+                this.regShow =false;
+                console.log(a,b);
+            }
+        },
+        components:{
+            demo:{
+                template:"#dialog"
+
+            }
+        }
+    })
+</script>
+</html>
